@@ -17,7 +17,7 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create() : View
     {
         return view('auth.register');
     }
@@ -27,19 +27,29 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request) : RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'phone_number' => ['required', 'integer', 'max:20'],
+            'avatar' => ['required', 'image', 'mimes:png,jpg,jpeg'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'avatar' => $avatarPath,
             'password' => Hash::make($request->password),
         ]);
+
+        $user->assignRole('customer');
 
         event(new Registered($user));
 
