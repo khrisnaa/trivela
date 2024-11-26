@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('thumbnail');
             $table->string('slug');
-            $table->string('about');
+            $table->text('about');
             $table->string('location');
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('days');

@@ -13,12 +13,9 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->string('name');
-            $table->string('avatar');
-            $table->string('phone_number');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('slug');
+            $table->string('icon');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
