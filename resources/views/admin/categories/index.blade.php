@@ -18,14 +18,16 @@
                 @forelse ($categories as $category)
                     <div class="item-card flex flex-row items-center justify-between">
                         <div class="flex flex-row items-center gap-x-3">
-                            <img src=" " alt="" class="h-[90px] w-[90px] rounded-2xl object-cover">
+                            <img src="{{ Storage::url($category->icon) }}" alt="{{ $category->name }}"
+                                class="h-[90px] w-[90px] rounded-2xl object-cover">
                             <div class="flex flex-col">
-                                <h3 class="text-xl font-bold text-indigo-950">cate name</h3>
+                                <h3 class="text-xl font-bold text-indigo-950">{{ $category->name }}</h3>
                             </div>
                         </div>
                         <div class="hidden flex-col md:flex">
                             <p class="text-sm text-slate-500">Date</p>
-                            <h3 class="text-xl font-bold text-indigo-950">date</h3>
+                            <h3 class="text-xl font-bold text-indigo-950">{{ $category->created_at->format('M d, Y') }}
+                            </h3>
                         </div>
                         <div class="hidden flex-row items-center gap-x-3 md:flex">
                             <a href=" " class="rounded-full bg-indigo-700 px-6 py-4 font-bold text-white">
