@@ -25,7 +25,7 @@ class StorePackageBankRequest extends FormRequest
             'bank_name' => ['required', 'string', 'max:255'],
             'bank_account_name' => ['required', 'string', 'max:255'],
             'bank_account_number' => ['required', 'string', 'max:255'],
-            'logo' => ['required', 'string', 'mimes:png,jpg,jpeg']
+            'logo' => ['required', 'image', 'mimes:png,jpg,jpeg']
         ];
     }
 }

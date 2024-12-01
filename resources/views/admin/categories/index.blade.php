@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 @empty
-                    <p>Belum ada data category</p>
+                    <p class="text-gray-500">No categories available at the moment.</p>
                 @endforelse
 
             </div>

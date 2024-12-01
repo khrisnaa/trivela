@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePackageBankRequest;
 use App\Models\PackageBank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PackageBankController extends Controller
 {
@@ -12,7 +14,8 @@ class PackageBankController extends Controller
      */
     public function index()
     {
-        //
+        $package_banks = PackageBank::orderByDesc('id')->paginate(10);
+        return view('admin.banks.index', compact('package_banks'));
     }
 
     /**
@@ -20,15 +23,28 @@ class PackageBankController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.banks.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePackageBankRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $validated = $request->validated();
+
+            if ($request->hasFile('logo')) {
+                $logoPath = $request->file('logo')->store('logos', 'public');
+                $validated['logo'] = $logoPath;
+            }
+
+            $newBank = PackageBank::create($validated);
+        });
+
+        return redirect()->route('admin.package_banks.index');
+
+
     }
 
     /**
