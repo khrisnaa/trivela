@@ -168,10 +168,11 @@
                 class="navigation-bar fixed bottom-0 z-50 flex h-[85px] w-full max-w-[640px] items-center justify-between rounded-t-[25px] bg-white px-6">
                 <div class="flex flex-col justify-center gap-1">
                     <p class="text-darkGrey tracking-035 text-sm leading-[22px]">Total Price</p>
-                    <p class="text-blue text-lg font-semibold leading-[26px] tracking-[0.6px]">Rp 900.000<span
+                    <p class="text-blue text-lg font-semibold leading-[26px] tracking-[0.6px]">Rp
+                        {{ number_format($packageTour->price, 0, ',', '.') }}<span
                             class="text-sx tracking-035 text-darkGrey font-normal leading-[20px]">/pack</span></p>
                 </div>
-                <a href="booking.html"
+                <a href="{{ route('front.book', $packageTour->slug) }}"
                     class="bg-blue w-fit rounded-xl p-[16px_24px] text-white transition-all duration-300 hover:bg-[#06C755]">Book
                     Now</a>
             </div>
