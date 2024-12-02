@@ -22,7 +22,7 @@ class UpdatePackageBookingRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'package_bank_id' => ['required', 'integer']
+            'package_bank_id' => ['required', 'string']
         ];
     }
 }
