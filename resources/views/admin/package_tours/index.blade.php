@@ -35,7 +35,8 @@
                             <h3 class="text-xl font-bold text-indigo-950">{{ $tour->days }} Days</h3>
                         </div>
                         <div class="hidden flex-row items-center gap-x-3 md:flex">
-                            <a href="" class="rounded-full bg-indigo-700 px-6 py-4 font-bold text-white">
+                            <a href="{{ route('admin.package_tours.show', $tour) }}"
+                                class="rounded-full bg-indigo-700 px-6 py-4 font-bold text-white">
                                 Manage
                             </a>
                         </div>

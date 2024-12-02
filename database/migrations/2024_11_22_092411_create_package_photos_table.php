@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary()->unique();
             $table->string('photo');
             $table->foreignUuid('package_tour_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

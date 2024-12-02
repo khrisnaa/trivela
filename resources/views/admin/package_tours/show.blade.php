@@ -1,41 +1,43 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-row justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex flex-row items-center justify-between">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 {{ __('Details Tours') }}
             </h2>
         </div>
     </x-slot>
-    
+
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-y-5 overflow-hidden bg-white p-10 shadow-sm sm:rounded-lg">
 
-
-                <div class="item-card flex flex-row justify-between items-center">
+                <div class="item-card flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center gap-x-3">
-                        <img src="#" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                        <img src="{{ Storage::url($packageTour->thumbnail) }}" alt=""
+                            class="h-[90px] w-[120px] rounded-2xl object-cover">
                         <div class="flex flex-col">
-                            <h3 class="text-indigo-950 text-xl font-bold">lorem</h3>
-                        <p class="text-slate-500 text-sm">category</p>
+                            <h3 class="text-xl font-bold text-indigo-950">{{ $packageTour->name }}</h3>
+                            <p class="text-sm text-slate-500">{{ $packageTour->category->name }}</p>
                         </div>
-                    </div> 
-                    <div  class="hidden md:flex flex-col">
-                        <p class="text-slate-500 text-sm">Price</p>
-                        <h3 class="text-indigo-950 text-xl font-bold">Rp 123,421</h3>
                     </div>
-                    <div  class="hidden md:flex flex-col">
-                        <p class="text-slate-500 text-sm">Total Days</p>
-                        <h3 class="text-indigo-950 text-xl font-bold">11 Days</h3>
+                    <div class="hidden flex-col md:flex">
+                        <p class="text-sm text-slate-500">Price</p>
+                        <h3 class="text-xl font-bold text-indigo-950">Rp
+                            {{ number_format($packageTour->price, 0, ',', '.') }}</h3>
                     </div>
-                    <div class="hidden md:flex flex-row items-center gap-x-3">
-                        <a href="#" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                    <div class="hidden flex-col md:flex">
+                        <p class="text-sm text-slate-500">Total Days</p>
+                        <h3 class="text-xl font-bold text-indigo-950">{{ $packageTour->days }} Days</h3>
+                    </div>
+                    <div class="hidden flex-row items-center gap-x-3 md:flex">
+                        <a href="{{ route('admin.package_tours.edit', $packageTour) }}"
+                            class="rounded-full bg-indigo-700 px-6 py-4 font-bold text-white">
                             Edit
                         </a>
-                        <form action="#" method="POST">
+                        <form action="{{ route('admin.package_tours.destroy', $packageTour) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="font-bold py-4 px-6 bg-red-700 text-white rounded-full">
+                            <button type="submit" class="rounded-full bg-red-700 px-6 py-4 font-bold text-white">
                                 Delete
                             </button>
                         </form>
@@ -43,20 +45,25 @@
                 </div>
 
                 <hr class="my-5">
-                <h3 class="text-indigo-950 text-xl font-bold">Gallery Photos</h3>
+                <h3 class="text-xl font-bold text-indigo-950">Gallery Photos</h3>
 
                 <div class="flex flex-row gap-x-5">
 
-                        <img src="#" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                    @forelse ($latestPhotos as $photo)
+                        <img src="{{ Storage::url($photo->photo) }}" alt=""
+                            class="h-[90px] w-[120px] rounded-2xl object-cover">
 
+                    @empty
+                        <p>No photo found</p>
+                    @endforelse
 
                 </div>
 
                 <div>
-                    <h3 class="text-indigo-950 text-xl font-bold">About</h3>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta porro, minima rerum laboriosam quas veritatis nam iste aspernatur architecto! Expedita repudiandae libero voluptates fugiat, aliquam impedit voluptate nisi consequuntur necessitatibus.
-                </p>
+                    <h3 class="text-xl font-bold text-indigo-950">About</h3>
+                    <p>
+                        {{ $packageTour->about }}
+                    </p>
                 </div>
 
             </div>
