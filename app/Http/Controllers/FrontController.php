@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePackageBookingCheckoutRequest;
 use Carbon\Carbon;
+use App\Models\Category;
 use App\Models\PackageBank;
 use App\Models\PackageTour;
+use App\Models\PackageBooking;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePackageBookingRequest;
 use App\Http\Requests\UpdatePackageBookingRequest;
-use App\Models\PackageBooking;
+use App\Http\Requests\StorePackageBookingCheckoutRequest;
 
 class FrontController extends Controller
 {
     public function index()
     {
+        $categories = Category::orderByDesc('id')->get();
         $package_tours = PackageTour::orderByDesc('id')->take(3)->get();
-        return view('front.index', compact('package_tours'));
+        return view('front.index', compact('package_tours', 'categories'));
     }
 
     public function details(PackageTour $packageTour)
@@ -132,5 +134,10 @@ class FrontController extends Controller
     public function book_finish()
     {
         return view('front.book_finish');
+    }
+
+    public function category(Category $category)
+    {
+        return view('front.category', compact('category'));
     }
 }

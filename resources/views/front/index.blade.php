@@ -38,46 +38,23 @@
         <div id="categories" class="flex flex-col gap-3">
             <h2 class="px-4 font-semibold">Categories</h2>
             <div class="main-carousel buttons-container">
-                <a href="category.html" class="group px-2 first-of-type:pl-4 last-of-type:pr-4">
-                    <div
-                        class="flex items-center gap-2 rounded-[10px] border border-[#4D73FF] p-3 transition-all duration-300 group-hover:bg-[#4D73FF]">
-                        <div class="flex h-6 w-6 shrink-0">
-                            <img src="assets/icons/umbrella.svg" alt="icon">
+
+                @forelse ($categories as $category)
+                    <a href="{{ route('front.category', $category->slug) }}"
+                        class="group px-2 first-of-type:pl-4 last-of-type:pr-4">
+                        <div
+                            class="flex items-center gap-2 rounded-[10px] border border-[#4D73FF] p-3 transition-all duration-300 group-hover:bg-[#4D73FF]">
+                            <div class="flex h-6 w-6 shrink-0">
+                                <img src="{{ Storage::url($category->icon) }}" alt="icon">
+                            </div>
+                            <span
+                                class="text-sm tracking-[0.35px] text-[#4D73FF] transition-all duration-300 group-hover:text-white">{{ $category->name }}</span>
                         </div>
-                        <span
-                            class="text-sm tracking-[0.35px] text-[#4D73FF] transition-all duration-300 group-hover:text-white">Beach</span>
-                    </div>
-                </a>
-                <a href="category.html" class="group px-2 first-of-type:pl-4 last-of-type:pr-4">
-                    <div
-                        class="flex items-center gap-2 rounded-[10px] border border-[#4D73FF] p-3 transition-all duration-300 group-hover:bg-[#4D73FF]">
-                        <div class="flex h-6 w-6 shrink-0">
-                            <img src="assets/icons/mountain.svg" alt="icon">
-                        </div>
-                        <span
-                            class="text-sm tracking-[0.35px] text-[#4D73FF] transition-all duration-300 group-hover:text-white">Mountain</span>
-                    </div>
-                </a>
-                <a href="category.html" class="group px-2 first-of-type:pl-4 last-of-type:pr-4">
-                    <div
-                        class="flex items-center gap-2 rounded-[10px] border border-[#4D73FF] p-3 transition-all duration-300 group-hover:bg-[#4D73FF]">
-                        <div class="flex h-6 w-6 shrink-0">
-                            <img src="assets/icons/tent.svg" alt="icon">
-                        </div>
-                        <span
-                            class="text-sm tracking-[0.35px] text-[#4D73FF] transition-all duration-300 group-hover:text-white">Nature</span>
-                    </div>
-                </a>
-                <a href="category.html" class="group px-2 first-of-type:pl-4 last-of-type:pr-4">
-                    <div
-                        class="flex items-center gap-2 rounded-[10px] border border-[#4D73FF] p-3 transition-all duration-300 group-hover:bg-[#4D73FF]">
-                        <div class="flex h-6 w-6 shrink-0">
-                            <img src="assets/icons/historical.svg" alt="icon">
-                        </div>
-                        <span
-                            class="text-sm tracking-[0.35px] text-[#4D73FF] transition-all duration-300 group-hover:text-white">Historical</span>
-                    </div>
-                </a>
+                    </a>
+                @empty
+                    <p>No categories found</p>
+                @endforelse
+
             </div>
         </div>
         <div id="recommendations" class="flex flex-col gap-3">
