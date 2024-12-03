@@ -13,7 +13,7 @@
         <section id="content"
             class="mx-auto flex min-h-screen w-full max-w-[640px] flex-col gap-8 bg-[#F9F2EF] pb-[120px]">
             <nav class="mt-8 flex w-full items-center justify-between px-4">
-                <a href="details.html">
+                <a href="{{ route('front.details', $packageTour->slug) }}">
                     <img src="{{ asset('assets/icons/back.png') }}" alt="back">
                 </a>
                 <p class="m-auto text-center font-semibold">Booking</p>
@@ -59,7 +59,8 @@
                                     src="{{ asset('assets/icons/minus-square.svg') }}" alt="icon"></button>
                             <p id="quantity" class="text-sm font-semibold">1</p>
                             <input type="hidden" name="quantity" id="quantity_input" value="1" />
-                            <input type="hidden" name="tour_price" id="tour_price" value="{{ $packageTour->price }}" />
+                            <input type="hidden" name="tour_price" id="tour_price"
+                                value="{{ $packageTour->price }}" />
                             <button type="button" id="add-quantity"><img
                                     src="{{ asset('assets/icons/add-square.svg') }}" alt="icon"></button>
                         </div>
