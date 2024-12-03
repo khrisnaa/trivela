@@ -1,40 +1,44 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-row justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex flex-row items-center justify-between">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 {{ __('Details Booking') }}
             </h2>
         </div>
     </x-slot>
-    
+
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
+        <div class="mx-auto max-w-5xl sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-y-5 overflow-hidden bg-white p-10 shadow-sm sm:rounded-lg">
 
-                <div class="item-card flex flex-row justify-between items-center">
+                <div class="item-card flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center gap-x-3">
-                        <img src="#" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                        <img src="{{ Storage::url($packageBooking->tour->thumbnail) }}" alt=""
+                            class="h-[90px] w-[120px] rounded-2xl object-cover">
                         <div class="flex flex-col">
-                            <h3 class="text-indigo-950 text-xl font-bold">tour name</h3>
-                        <p class="text-slate-500 text-sm">tour category</p>
+                            <h3 class="text-xl font-bold text-indigo-950">{{ $packageBooking->tour->name }}</h3>
+                            <p class="text-sm text-slate-500">{{ $packageBooking->tour->category->name }}</p>
                         </div>
-                    </div> 
-
-                        <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-green-500 text-white">
+                    </div>
+                    @if ($packageBooking->is_paid)
+                        <span class="w-fit rounded-full bg-green-500 px-3 py-2 text-sm font-bold text-white">
                             SUCCESS
                         </span>
-
-                        <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-orange-500 text-white">
+                    @else
+                        <span class="w-fit rounded-full bg-orange-500 px-3 py-2 text-sm font-bold text-white">
                             PENDING
-                        </span> 
+                        </span>
+                    @endif
 
-                    <form action="#" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                            Approve Transaction
-                        </button>
-                    </form>
+                    @if (!$packageBooking->is_paid)
+                        <form action="{{ route('admin.package_bookings.update', $packageBooking) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="rounded-full bg-indigo-700 px-6 py-4 font-bold text-white">
+                                Approve Transaction
+                            </button>
+                        </form>
+                    @endif
                 </div>
 
                 <hr class="my-5">
@@ -42,45 +46,46 @@
                 <div class="grid grid-cols-2 gap-5">
                     <div class="flex flex-col gap-y-4">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Name</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                customer name
+                            <p class="text-sm text-slate-500">Name</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $packageBooking->customer->name }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Email</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                               email addrees
+                            <p class="text-sm text-slate-500">Email</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $packageBooking->customer->email }}
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Phone</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                628192831
+                            <p class="text-sm text-slate-500">Phone</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                + {{ $packageBooking->customer->phone_number }}
                             </h3>
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-4">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Quantity</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                3 people
+                            <p class="text-sm text-slate-500">Quantity</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $packageBooking->quantity }} people
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Total Days</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                11 days
+                            <p class="text-sm text-slate-500">Total Days</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $packageBooking->tour->days }} days
                             </h3>
                         </div>
-        
+
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Date</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                24 - 25
+                            <p class="text-sm text-slate-500">Date</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                {{ $packageBooking->start_date->format('d') }} -
+                                {{ $packageBooking->end_date->format('d') }}
                             </h3>
                         </div>
 
@@ -92,39 +97,40 @@
                 <div class="grid grid-cols-2 gap-5">
                     <div class="flex flex-col gap-y-4">
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Sub Total</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                Rp 0
-                            </h3>
-                        </div>
-        
-                        <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Insurance</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                Rp 1
-                            </h3>
-                        </div>
-        
-                        <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Tax</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                Rp 2
+                            <p class="text-sm text-slate-500">Sub Total</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                Rp {{ number_format($packageBooking->sub_total, 0, ',', '.') }}
                             </h3>
                         </div>
 
                         <div class="flex flex-col">
-                            <p class="text-slate-500 text-sm">Total Amount</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">
-                                Rp 3
+                            <p class="text-sm text-slate-500">Insurance</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                Rp {{ number_format($packageBooking->insurance, 0, ',', '.') }}
+                            </h3>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <p class="text-sm text-slate-500">Tax</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                Rp {{ number_format($packageBooking->tax, 0, ',', '.') }}
+                            </h3>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <p class="text-sm text-slate-500">Total Amount</p>
+                            <h3 class="text-xl font-bold text-indigo-950">
+                                Rp {{ number_format($packageBooking->total_amount, 0, ',', '.') }}
                             </h3>
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-4">
-                        <h3 class="text-indigo-950 text-xl font-bold">
+                        <h3 class="text-xl font-bold text-indigo-950">
                             Bukti Pembayaran
                         </h3>
-        
-                        <img src="#" alt="" class="rounded-2xl object-cover w-[300px] h-[200px]">
+
+                        <img src="{{ Storage::url($packageBooking->proof) }}" alt=""
+                            class="h-[200px] w-[300px] rounded-2xl object-cover">
                     </div>
                 </div>
 
